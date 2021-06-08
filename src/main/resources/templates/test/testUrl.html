@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../assets/jquery/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <form action="/test/testUrl.do" method="get">
+        <input type="text" name="name">
+        <input type="submit" value="Test URL GET">
+    </form>
+    <br>
+    <form action="/test/testUrl.do" method="post">
+        <input type="text"  name="name">
+        <input type="submit" value="Test URL POST">
+    </form>
+    <br>
+    <form action="/test/testUrl.do" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <input type="text"  name="name">
+        <input type="submit" value="Test URL PUT">
+    </form>
+    <br>
+    <form action="/test/testUrl.do" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="text" id="name" name="name">
+    </form>
+    <input type="submit" value="Test URL DELETE" onclick="login()">
+
+</body>
+    <script>
+        function login(){
+            $.post("/test/testUrl.do",{
+
+                _method:"DELETE",
+
+                "name" : $("#name").val(),
+
+                "PASSWORD" : 'NAME'
+
+            },function (data){
+                alert(data)
+            })
+        }
+    </script>
+</html>

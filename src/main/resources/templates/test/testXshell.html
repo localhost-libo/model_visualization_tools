@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/webjars/xterm/4.9.0/css/xterm.css" rel="stylesheet">
+    <script src="/webjars/xterm/4.9.0/lib/xterm.js"></script>
+    <script src="../assets/jquery/jquery-3.3.1.js"></script>
+</head>
+<body>
+<div id="terminal"></div>
+<script>
+    var term = new Terminal();
+    term.open(document.getElementById('terminal'));
+    term.write('Hello world')
+</script>
+</body>
+</html>

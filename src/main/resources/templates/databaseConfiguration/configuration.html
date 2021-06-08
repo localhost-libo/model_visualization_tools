@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <script src="../assets/jquery/jquery-3.3.1.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="h6 text-uppercase mb-0">数据库配置</h3>
+        </div>
+        <div class="card-body">
+            <form class="form-horizontal" id="databaseForm" action="/databaseConfiguration/updateDatabase.do">
+                <div class="form-group">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input id="pgtype" type="radio" name="type"  checked="checked" class="custom-control-input" th:value="${database.type}" onclick="changeData(1)">
+                    <label for="pgtype" class="custom-control-label">PG</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input id="hivetype" type="radio" name="type"  class="custom-control-input" th:value="${database.type}" onclick="changeData(2)">
+                    <label for="hivetype" class="custom-control-label">HIVE</label>
+                </div>
+                </div>
+
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">host</label>
+                    <input type="text"  class="form-control" th:value="${database.host}" id="host" name="host">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">port</label>
+                    <input type="text"  class="form-control" th:value="${database.port}"  id="port" name="port">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">user</label>
+                    <input type="text"  class="form-control" th:value="${database.user}" id="user" name="user">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">pswd</label>
+                    <input type="text" class="form-control" th:value="${database.pswd}" id="pswd"  name="pswd">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">dbnm</label>
+                    <input type="text"  class="form-control"  th:value="${database.dbnm}" id="dbnm" name="dbnm">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">inst</label>
+                    <input type="text"  class="form-control" th:value="${database.inst}" id="inst" name="inst">
+                </div>
+                <div class="line"></div>
+                <div class="form-group row">
+                    <div class="col-md-9 ml-auto">
+                        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="upadtePgDatabase()">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function upadtePgDatabase(){
+        var FormData =  $("#databaseForm").serialize();
+        var url = $("#databaseForm").attr('action');
+        $.ajax({
+            url: url,
+            data: FormData,
+            type: "post",
+            dataType: "json",
+            cache: false,
+            success: function (data){
+                window.location.reload();
+            }
+        })
+    }
+    function changeData(sign){
+        $.ajax({
+            url: "/changeData.do?sign="+sign,
+            type: "post",
+            dataType: "json",
+            cache: false,
+            success: function (data){
+                if (sign == 1){
+                    $("#pgtype").val(data.type);
+                }else {
+                    $("#hivetype").val(data.type);
+                }
+                console.log(data);
+                $("#host").val(data.host);
+                $("#port").val(data.port);
+                $("#user").val(data.user);
+                $("#pswd").val(data.pswd);
+                $("#dbnm").val(data.dbnm);
+                $("#inst").val(data.inst);
+            }
+        })
+    }
+</script>
+</html>

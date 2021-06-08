@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../assets/jquery/jquery-3.3.1.js"></script>
+
+
+<style>
+    .test1{
+        display: block;
+        /*width: 40%;*/
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    .test2{
+        display: block;
+        width: 40%;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-color: #dc3545;
+    }
+    /*.test3{*/
+    /*    width: 270px;*/
+    /*}*/
+    .test3 {
+        display: block;
+        width: 700%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+</style>
+</head>
+<body>
+<!-- navbar-->
+<div class="page-holder w-100 d-flex flex-wrap">
+    <div class="container-fluid px-xl-5">
+        <section class="py-5">
+            <div class="row">
+                <div class="col-lg-12 mb-5">
+                    <div class="card">
+                        <div>
+                        <div class="card-body" >
+                            <div class="col-lg-8 mb-5">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="h6 text-uppercase mb-0">数据源设置</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <form class="form-inline" id="modelTraining1Form" >
+                                            <div class="form-group">
+                                                <label class="form-control-label text-uppercase" id="test">读入数据表</label>
+                                                <div class="col-md-3">
+                                                    <input type="text" placeholder="读入数据表" class="form-control"  id="data_sheet" name="data_sheet">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label text-uppercase">数据库名</label>
+                                                <div class="col-md-3">
+                                                    <input type="text" placeholder="opdw4_238" class="form-control" value="opdw4_238" readonly id="database_name" name="database_name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label text-uppercase">模型路径</label>
+                                                <div class="col-md-3">
+                                                <input id="model_path" type="text" placeholder="/use/opdw4_238/clueProject/model"
+                                                       value="/use/opdw4_238/clueProject/model" name="model_path"
+                                                       class="test3" disabled="disabled">
+                                                    <!--mr-3 form-control-->
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-body">
+                                        <form class="form-inline" id="modelTraining2Form">
+                                            <div class="form-group">
+                                                <label class="form-control-label text-uppercase">算法设置</label>
+                                                &nbsp&nbsp&nbsp&nbsp
+                                                <div class="col-md-3">
+                                                    <select id="algorithm"  name="algorithm" class="form-control"  >
+                                                        <option value="rf" >rf-随机森林</option>
+                                                        <option value="lr">lr-逻辑回归</option>
+                                                        <option value="svm">svm-向量机</option>
+                                                        <option value="nb">nb-贝叶斯</option>
+                                                        <option value="dt">dt-决策树</option>
+                                                        <option value="gbdt">gbdt-梯度下降数</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                <label class="form-control-label text-uppercase">模型ID</label>
+                                                <div class="col-md-3">
+                                                    <input type="text"  class="form-control"  id="model_id" name="model_id">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label text-uppercase">K折交叉验证</label>
+                                                <input id="cross_validation" type="text" name="cross_validation"
+                                                       class="mr-3 form-control" >
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-primary" onclick="getFeatureSettingInfo()">下一步</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       </div>
+
+                        <!--                        <div  style="height: 1000px; width: 100%; border-bottom-color: rgb(239, 237, 237);" >-->
+<!--                            <form  id="modelTraining1Form" >-->
+<!--                                <div class="mc-ui-geometry-rectangle mc-ui-flex-center" style="width: 1655px; height: 53px; background-color: rgb(225, 225, 225); border-color: rgb(227, 223, 223);"></div>-->
+<!--                                <span class="mc-ui-geometry-char" style="height: 35px; width: 236px; position: absolute; left: 2.86442%; top: 0.701403%; font-size: 20px;">数据源设置</span>-->
+
+<!--                                <span class="mc-ui-geometry-char" style="height: 20px; width: 100px; position: absolute; left: 3.75399%; top: 7.31463%;">读入数据表</span>-->
+<!--                                <input class="form-control" style="position: absolute; left: 11.262%; top: 6.71343%; width: 11.3419%;" type="text"-->
+<!--                                       placeholder="读入数据表"  id="data_sheet" name="data_sheet"/>-->
+
+<!--                                <span class="mc-ui-geometry-char" style="height: 20px; width: 100px; position: absolute; left: 26.5974%; top: 7.31463%;">数据库名</span>-->
+<!--                                <input class="form-control" style="position: absolute; left: 33.4665%; top: 6.71343%; width: 13.738%;" type="text"-->
+<!--                                       placeholder="opdw4_238"  value="opdw4_238" readonly id="database_name" name="database_name"/>-->
+
+<!--                                <span class="mc-ui-geometry-char" style="height: 20px; width: 100px; position: absolute; left: 51.9169%; top: 7.31463%;">模型路径</span>-->
+<!--                                <input class="form-control" style="position: absolute; left: 59.9042%; top: 6.71343%; width: 16.6134%;" type="text"-->
+<!--                                       id="model_path" placeholder="/use/opdw4_238/clueProject/model" value="/use/opdw4_238/clueProject/model" name="model_path"disabled="disabled"/>-->
+
+<!--                                <span id="uuid9d5081d2-79c7-4056-b6a0-b9dc1aad0886" class="mc-ui-geometry-char" style="height: 20px; width: 100px; position: absolute; left: 79.1866%; top: 7.3%;">算法设置</span>-->
+<!--                                <select class="form-control" style="position: absolute; left: 85.5662%; top: 6.5%; width: 11.0224%;">-->
+<!--                                    <option value="rf">rf-随机森林</option>-->
+<!--                                    <option value="lr">lr-逻辑回归</option>-->
+<!--                                    <option value="svm">svm-向量机</option>-->
+<!--                                    <option value="nb">nb-贝叶斯</option>-->
+<!--                                    <option value="dt">dt-决策树</option>-->
+<!--                                    <option value="gbdt">gbdt-梯度下降数</option>-->
+<!--                                </select>-->
+
+<!--                                <span class="mc-ui-geometry-char" style="height: 20px; width: 100px; position: absolute; left: 3.75399%; top: 15.9319%;">模   型   ID</span>-->
+<!--                                <input class="form-control" style="position: absolute; left: 11.262%; top: 15.0301%; width: 11.3419%;" type="text" id="model_id" name="model_id"/>-->
+
+<!--                                <span class="mc-ui-geometry-char" style="height: 20px; width: 100px; position: absolute; left: 25.639%; top: 15.9319%;">K折交叉验证</span>-->
+<!--                                <input class="form-control" style="position: absolute; left: 33.4665%; top: 15.0301%; width: 13.738%;" type="text" id="cross_validation"  name="cross_validation"/>-->
+
+<!--                                <span class="mc-ui-geometry-char" style="height: 20px; width: 100px; position: absolute; left: 51.9169%; top: 16.0321%;">备      注</span>-->
+<!--                                <textarea class="form-control" style="position: absolute; left: 59.9042%; top: 14.3287%; height: 47px; width: 16.6134%;" rows="3"></textarea>-->
+
+<!--                            </form>-->
+<!--                            <button id="uuid6fe6fc9d-e3b2-4fec-8d22-3b7024482623" class="btn btn-primary" style="position: absolute; left: 85.9649%; top: 14.75%;" type="button"-->
+<!--                                    onclick="getFeatureSettingInfo()">下一步</button>-->
+<!--                        </div>-->
+<!--                        <hr style="position: absolute; left: 0.878594%; top: 19.9399%; width: 98.0032%;"></hr>-->
+                        <div id="a" class="card-body">
+                            <form id="featureSettingForm" >
+                            <div class="line"></div><!-- 分割线 -->
+                            <div class="col-lg-6 mb-4">  <!-- 特征设置-->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="text-uppercase mb-0">特征设置</h6>
+                                    </div>
+                                    <div class="card-body" >
+                                        <table class="table card-text" id="feature_setting_table">
+                                            <thead>
+                                            <tr>
+                                                <th>模型ID</th>
+                                                <th>字段</th>
+                                                <th>描述</th>
+                                                <th>字段类型</th>
+                                                <th>是否使用</th>
+                                                <th>设置类型</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <button type="button" id="two" class="btn btn-primary" onclick="getFeatureProcessingInfo()">下一步</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+
+                        <div id="b" class="card-body">
+                            <form id="featureProcessingForm">
+                            <div class="col-lg-6 mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="text-uppercase mb-0">特征处理</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table card-text" id="feature_processing_table">
+                                            <thead>
+                                            <tr>
+                                                <th>模型ID</th>
+                                                <th>字段</th>
+                                                <th>描述</th>
+                                                <th>字段类型</th>
+                                                <th>设置类型</th>
+                                                <th>特征处理方式</th>
+                                                <th>取值</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <button type="button" id="three" class="btn btn-primary" onclick="yanzheng()">下一步</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+
+                        <div id="c" class="card-body">
+                            <form id="superParameterSettingForm">
+                            <div class="col-lg-6 mb-4">  <!-- 特征设置-->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="text-uppercase mb-0">超参设置</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table card-text" id="super_parameter_setting_table">
+                                            <thead>
+                                            <tr>
+                                                <th>模型ID</th>
+                                                <th>超参名称</th>
+                                                <th>是否使用</th>
+                                                <th>设置值<font color="#d60000">(多值用 , 分隔)</font></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <button type="button" class="btn btn-primary" onclick="preservation()">保存</button>
+                                        <button type="button" class="btn btn-primary">模型训练</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+</div>
+</div>
+<script type="text/javascript" src="/modelTraining/modelTraining.js"></script>
+</body>
+</html>

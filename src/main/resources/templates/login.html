@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>模型可视化工具</title>
+		<!-- Bootstrap core CSS -->
+		<link href="assets/css/bootstrap.min.css"  rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="assets/css/signin.css"   rel="stylesheet">
+		<script src="assets/jquery/jquery-3.3.1.js"></script>
+	</head>
+
+	<body class="text-center">
+		<form class="form-signin" action="/permission/verificationLogin.do" method="get" id="loginForm">
+			<img class="mb-4" src="assets/img/bootstrap-solid.svg"  alt="" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal" >模型可视化工具</h1>
+			<!-- 判断 -->
+			<label class="sr-only" >Username</label>
+			<input type="text" class="form-control" name="user_name" id="user_name" placeholder="Username"  >
+			<label class="sr-only" >Password</label>
+			<input type="password" class="form-control" name="password" placeholder="Password" >
+			<div class="checkbox mb-3">
+				<label>
+        </label>
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="button" onclick="login()">登录</button>
+		</form>
+
+	</body>
+
+	<script type="text/javascript">
+		function login(){
+		  var FormData =  $("#loginForm").serialize();
+		  var url = $("#loginForm").attr('action');
+		  $.get(url,FormData,function(data){
+			  if (data.result){
+				  window.location.href="/index.do";
+			  }else {
+			  	alert("用户名或密码不正确！");
+			  }
+		  })
+		}
+	</script>
+</html>

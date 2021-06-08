@@ -1,0 +1,96 @@
+server:
+  port: 8123
+spring:
+  datasource:
+    #    测试
+    pg:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://10.0.97.249:5432/java_frame
+      username: postgres
+      password: 1qaz@WSX
+      type: com.alibaba.druid.pool.DruidDataSource
+    hive:
+      driver-class-name: org.apache.hive.jdbc.HiveDriver
+      jdbc-url: jdbc:hive2://10.1.1.104:10000/test
+      username: hadoop
+      password: hadoop
+      type: com.alibaba.druid.pool.DruidDataSource
+    mysql:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://10.0.97.31:3306/soul?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+      username: root
+      password: root
+      type: com.alibaba.druid.pool.DruidDataSource
+    #      正式
+#    pg:
+#      driver-class-name: org.postgresql.Driver
+#      jdbc-url: jdbc:postgresql://10.1.1.120:5432/etl
+#      username: postgres
+#      password: 123456
+#      type: com.alibaba.druid.pool.DruidDataSource
+#    hive:
+#      driver-class-name: org.apache.hive.jdbc.HiveDriver
+#      jdbc-url: jdbc:hive2://10.1.1.104:10000/test
+#      username: hadoop
+#      password: hadoop
+#      type: com.alibaba.druid.pool.DruidDataSource
+#    mysql:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://10.1.1.103:3306/metastore?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+#      username: root
+#      password: Bigdata@123
+#      type: com.alibaba.druid.pool.DruidDataSource
+
+  common-config:
+      initialSize: 1
+      minIdle: 1
+      maxIdle: 5
+      maxActive: 50
+      maxWait: 10000
+      timeBetweenEvictionRunsMillis: 10000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+      filters: sta
+  thymeleaf:
+    cache: false
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+#  freemarker:
+#    suffix: .html
+#    request-context-attribute: req
+#    cache: false
+#    enabled: true
+#    charset: UTF-8
+#    content-type: text/html
+#    template-loader-path: classpath:/templates/
+file:
+  path: config/
+  #日志输出级别
+#logging:
+#  level:
+#   root: DEBUG
+#  #指定完整目录，在指定路径下生成日志文件
+#  file:
+#    path: /logs/log
+#  pattern:
+#    console: '%d{yyyy-MM-dd hh:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
+#测试标记
+custom:
+  yml_sign: "0"
+#正式标记
+#custom:
+#  yml_sign: "1"
+
+
+
+
+
+
+

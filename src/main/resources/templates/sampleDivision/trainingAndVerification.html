@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>训练及验证</title>
+    <!--    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link href="../assets/css/bootstrap-mins.css" rel="stylesheet">-->
+    <link href="../assets/css/lib/sidebar.css" rel="stylesheet">
+    <link href="../assets/css/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/lib/nixon.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <script src="../assets/jquery/jquery-3.3.1.js"></script>
+    <style>
+        .dhx_grid-header-cell--align_right .dhx_grid-header-cell-text {
+            padding-left: 0px !important
+        }
+        .cluesInfo-search-form {
+            padding: 40px 10px;
+            border-bottom: 3px solid #e4e4e4;
+        }
+        .btn {
+            margin: 4px !important;
+        }
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: rgba(0, 0, 0, .03);
+            border-bottom: 1px solid rgba(0, 0, 0, .125)
+        }
+    </style>
+</head>
+<body>
+<div style="width: 100%;height: 640px;position: absolute; left: 0%; top: 5%;">
+    <div class="page-content">
+        <div class="col-xs-12"
+             style="width: 100%; height: 160px;position: absolute; left: 0%; top: 0%;">
+<!--            <div class="card-header"></div>-->
+            <div class="p-2">
+                <form id="Form" class="cluesInfo-search-form">
+                    <div class="form-inline">
+                        <div style="width: 30px;">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="data_sheet"><h4>读入数据表：</h4></label>
+                            <input type="text" class="form-control" autocomplete="on" list="mylist"
+                                   onkeyup="search(this.value)" id="data_sheet" name="data_sheet">
+                            <datalist id="mylist"></datalist>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="field"><h4>ID字段名：</h4></label>
+                            <input type="text" class="form-control" autocomplete="on" list="fieldList"
+                                   onkeyup="searchs(this.value)" id="field" name="field">
+                            <datalist id="fieldList"></datalist>
+                            <span class="glyphicon glyphicon-plus" onclick="addNextField()"></span>
+                        </div>
+                        <div class="form-group" id="addNextField">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label" for="label"><h4>Label：</h4></label>
+                            <input type="text" class="form-control" autocomplete="on" list="labelList"
+                                   onkeyup="searchss(this.value)" id="label" name="label">
+                            <datalist id="labelList"></datalist>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-info btn-flat m-b-10 m-l-5">
+                                下一步
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div style="width: 50%; height: 115%;position: absolute; left: 0%; top: 20%;border-right:1px dashed #a2a39b;border-bottom: 5px solid #a2a39b; ">
+            <div style="width: 100%;height: 11%; padding: .75rem 1.25rem;margin-bottom: 0;background-color: rgba(0, 0, 0, .03);border-bottom: 1px solid rgba(0, 0, 0, .125)">
+                <div style="position: absolute; left: 45%; top: 0%;">
+                    <h2><span class="label label-primary">训练样本</span></h2>
+                </div>
+            </div>
+                <form>
+            <div style="position: absolute; left: 20%; top: 15%;">
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>输入正样本数：</h4></label>
+                    <input type="text" >
+                    <label class="col-form-label" ><h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余正样本数：XXX</h4></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>输入反样本数：</h4></label>
+                    <input type="text">
+                    <label class="col-form-label" ><h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余反样本数：XXX</h4></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>输入反样本数：XXXX</h4></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="col-form-label" ><h4>正反比例：XX ：XX</h4></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>输出：</h4></label>
+                    <input type="text">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-info btn-flat m-b-10 m-l-5">
+                        确认
+                    </button>
+                </div>
+            </div>
+                </form>
+        </div>
+        <div style="width: 50%; height: 115%;position: absolute; left: 50%; top: 20%;border-bottom: 5px solid #a2a39b;">
+            <div style="width: 100%;height: 11%; padding: .75rem 1.25rem;margin-bottom: 0;background-color: rgba(0, 0, 0, .03);border-bottom: 1px solid rgba(0, 0, 0, .125)">
+                <div style="position: absolute; left: 45%; top: 0%;"><h2><span class="label label-primary">验证样本</span></h2></div>
+            </div>
+            <form>
+            <div style="position: absolute; left: 20%; top: 15%;">
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>排&nbsp;&nbsp;除&nbsp;&nbsp;表&nbsp;&nbsp;名：&nbsp;&nbsp;</h4></label>
+                    <input type="text">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>排&nbsp;&nbsp;除&nbsp;&nbsp;字&nbsp;&nbsp;段：&nbsp;&nbsp;</h4></label>
+                    <input type="text">
+                    <span class="glyphicon glyphicon-plus" ></span>
+                </div>
+                <div class="form-group" >
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>输入正样本数：</h4></label>
+                    <input type="text" >
+                    <label class="col-form-label" ><h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余正样本数：XXX</h4></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>输入反样本数：</h4></label>
+                    <input type="text">
+                    <label class="col-form-label" ><h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余反样本数：XXX</h4></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>输入反样本数：XXXX</h4></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="col-form-label" ><h4>正反比例：XX ：XX</h4></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>备注：</h4></label>
+                    <textarea type="text" class="form-control" id="remark" name="remark"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" ><h4>输出：</h4></label>
+                    <input type="text">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-info btn-flat m-b-10 m-l-5">
+                        确认
+                    </button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/sampleDivision/trainingAndVerification.js"></script>
+</html>
