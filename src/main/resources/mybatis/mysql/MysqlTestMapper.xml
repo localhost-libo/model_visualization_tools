@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bohong.model_visualization_tools.mapper.mysql.MysqlTestMapper">
+    <select id="selectDataSheetInfo" resultType="com.bohong.model_visualization_tools.domain.modelTraining.ModelTraining" parameterType="com.bohong.model_visualization_tools.domain.modelTraining.ModelTraining">
+        SELECT #{features_model_id} as features_model_id, c.`COMMENT` as describes,c.COLUMN_NAME as field,c.TYPE_NAME ,c.INTEGER_IDX as field_type from TBLS t,COLUMNS_V2 c WHERE t.TBL_ID = c.CD_ID AND TBL_NAME = #{data_sheet}
+    </select>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bohong.model_visualization_tools.mapper.pg.PermissionMapper">
+    <select id="selectVerificationLogin" resultType="com.bohong.model_visualization_tools.domain.permission.User" parameterType="com.bohong.model_visualization_tools.domain.permission.User">
+        SELECT* from model_platform_user where user_name = #{user_name} and password = #{password}
+    </select>
+
+    <select id="selectDataSheetInfos" resultType="com.bohong.model_visualization_tools.domain.modelTraining.ModelTraining" parameterType="com.bohong.model_visualization_tools.domain.modelTraining.ModelTraining">
+        SELECT  #{features_model_id} as features_model_id, a.attname AS field, t.typname AS field_type, b.description AS describes
+        FROM pg_class c, pg_attribute a
+                             LEFT JOIN pg_description b
+                                       ON a.attrelid = b.objoid
+                                           AND a.attnum = b.objsubid, pg_type t
+        WHERE c.relname = #{data_sheet}
+          AND a.attnum > 0
+          AND a.attrelid = c.oid
+          AND a.atttypid = t.oid
+        ORDER BY a.attnum;
+    </select>
+</mapper>
