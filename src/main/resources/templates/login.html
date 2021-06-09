@@ -26,12 +26,18 @@
 				<label>
         </label>
 			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="button" onclick="login()">登录</button>
+			<button class="btn btn-lg btn-primary btn-block" type="button" onclick="login()" >登录</button>
 		</form>
 
 	</body>
 
 	<script type="text/javascript">
+		document.onkeydown = function (event) {
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			if (e && e.keyCode == 13) {
+				login()
+			}
+		};
 		function login(){
 		  var FormData =  $("#loginForm").serialize();
 		  var url = $("#loginForm").attr('action');

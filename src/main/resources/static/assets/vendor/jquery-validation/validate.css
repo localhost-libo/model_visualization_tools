@@ -1,0 +1,21 @@
+/* =======================================
+
+		Main Stylesheet
+		
+		Building on Twitter Bootstrap
+		http://twitter.github.com/bootstrap/
+		
+========================================== */
+/* New styles below */
+
+		label.error {
+			font-weight: bold;
+			color: #FF0064;
+			font-size: 5px!important;
+		}
+		span.error {
+			font-weight: normal;
+			color: #FF0064;
+			margin-top: 2px;
+			cursor: context-menu;
+		}
