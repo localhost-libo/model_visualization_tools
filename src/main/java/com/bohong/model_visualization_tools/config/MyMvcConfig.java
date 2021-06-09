@@ -28,6 +28,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
                 registry.addViewController("/visualAnalysis/toVisualAnalysis.do").setViewName("visualAnalysis/visualAnalysis");
                 registry.addViewController("/sampleDivision/trainingAndVerification.do").setViewName("sampleDivision/trainingAndVerification");
                 registry.addViewController("/test/toTestUrl.do").setViewName("test/testUrl");
+                registry.addViewController("/systemSettings/toUserInformation.do").setViewName("systemSettings/userInformation");
             }
             //配置拦截器
 //            @Override

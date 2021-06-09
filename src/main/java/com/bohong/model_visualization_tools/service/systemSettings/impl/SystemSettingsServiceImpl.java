@@ -172,6 +172,9 @@ public class SystemSettingsServiceImpl implements SystemSettingsService {
         List<UserData> userDataList = userDataDivision(userData);
         systemSettingsMapper.deleteUserDataDivision();
         for (UserData u : userDataList){
+            if (u.getUser_name().equals("supadmin")){
+                u.setGroup("0");
+            }
         systemSettingsMapper.insertUserDataDivision(u);
         }
     }

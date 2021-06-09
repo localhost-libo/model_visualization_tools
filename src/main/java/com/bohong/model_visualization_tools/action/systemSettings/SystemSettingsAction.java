@@ -47,17 +47,6 @@ public class SystemSettingsAction {
         return  "systemSettings/permissionConfiguration";
     }
 
-    /**
-     * 跳转至用户信息
-     * @param modelMap
-     * @param request
-     * @return
-     */
-    @RequestMapping("/systemSettings/toUserInformation.do")
-    public String s(ModelMap modelMap, HttpServletRequest request){
-        return  "systemSettings/userInformation";
-    }
-
 
     /**
      * 跳转至菜单信息
