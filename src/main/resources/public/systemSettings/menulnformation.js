@@ -47,6 +47,9 @@ function setMenuDataList(info){
                     {title : '管理人员权限',dataIndex :'manag',editor : {xtype : 'select',items:{1:'1',0:'0'}
                         }},
                     {title : '操作人员权限',dataIndex :'operation',editor : {xtype : 'select',items:{1:'1',0:'0'}}}
+                    // {title: '编辑',renderer:function(){
+                    //      return  '<span class="grid-command btn-edit" >编辑</span>';
+                    //  }}
                 ],
                 width : 1000,
                 // loadMask : true,
@@ -87,7 +90,7 @@ function setMenuDataList(info){
     });
 }
 
-function a(){
+function preservationMenuData(){
     if(editing.isValid()){
         var records = store.getResult();
         // var records = BUI.JSON.stringify(records)
@@ -117,4 +120,7 @@ function a(){
             }
         })
     }
+}
+function addMenuClassification(value){
+    $("#content").attr("hide", "");
 }
