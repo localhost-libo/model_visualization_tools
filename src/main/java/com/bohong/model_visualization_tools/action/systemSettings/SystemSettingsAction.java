@@ -54,10 +54,10 @@ public class SystemSettingsAction {
      * @param request
      * @return
      */
-    @RequestMapping("/systemSettings/toMenuInformation.do")
-    public String toMenuInformation(ModelMap modelMap, HttpServletRequest request){
-        systemSettingsService.toMenuInformation(modelMap,request);
-        return  "systemSettings/menuInformation";
+    @RequestMapping("/systemSettings/toSubmenuInformation.do")
+    public String toSubmenuInformation(ModelMap modelMap, HttpServletRequest request){
+        systemSettingsService.toSubmenuInformation(modelMap,request);
+        return  "systemSettings/submenuInformation";
     }
 
 
@@ -101,6 +101,10 @@ public class SystemSettingsAction {
         return map;
     }
 
+    @RequestMapping(value = "/systemSettings/addMenuInformation.do")
+    public String a(MenuUtil menuUtil){
+        return "/systemSettings/addMenuInformation";
+    }
     @ResponseBody
     @RequestMapping(value = "/systemSettings/getUserData.do")
     public Map getUserData(){
@@ -126,5 +130,16 @@ public class SystemSettingsAction {
     @RequestMapping(value = "/systemSettings/testLinux.do")
     public String testLinux(){
         return  systemSettingsService.testLinux();
+    }
+
+
+    /**
+     * 获取一级菜单信息
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/systemSettings/getMenuData.do")
+    public Map getMenuData(){
+        return systemSettingsService.getMenuData();
     }
 }

@@ -17,4 +17,5 @@ public class MenuUtil {
         private String manag;
         private String operation;
         private String superior;
+        private String category_sort;
 }

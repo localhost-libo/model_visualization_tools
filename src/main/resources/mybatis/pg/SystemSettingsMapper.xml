@@ -17,7 +17,7 @@
         ORDER BY b.sequence
     </select>
 
-    <select id="selectMenuData" resultType="String" parameterType="com.bohong.model_visualization_tools.domain.systemSettings.MenuUtil">
+    <select id="selectSubmenuData" resultType="String" parameterType="com.bohong.model_visualization_tools.domain.systemSettings.MenuUtil">
         SELECT  name FROM model_platform_data_menu WHERE
         <if test="category != null and category != '' ">
             category = #{category}
@@ -31,11 +31,11 @@
         ORDER BY sequence ASC
     </select>
 
-    <select id="selectMenuUtilCategoryData" resultType="String">
+    <select id="selectSubmenuUtilCategoryData" resultType="String">
         SELECT category from model_platform_data_menu  GROUP BY category,category_sort ORDER BY category_sort
     </select>
 
-    <select id="selectMenuUtilCategoryDatas" resultType="String">
+    <select id="selectSubmenuUtilCategoryDatas" resultType="String">
         SELECT category from model_platform_data_menu where "manag" = '1' or "operation" = '1'  GROUP BY category,category_sort ORDER BY category_sort
     </select>
 
@@ -83,4 +83,8 @@
     <delete id="deleteUserDataDivision" >
         DELETE FROM model_platform_user
     </delete>
+
+    <select id="selectMenuData" resultType="com.bohong.model_visualization_tools.domain.systemSettings.MenuUtil">
+        SELECT * from model_platform_data_menu ORDER BY "sequence" ASC
+    </select>
 </mapper>

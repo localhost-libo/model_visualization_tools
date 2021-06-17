@@ -23,7 +23,7 @@ function obtainSupMenuData(){
         dataType: "json",
         cache: false,
         success: function (data){
-            $("#menuInformationData").empty();
+            $("#submenuInformationData").empty();
             setMenuDataList(data.menuUtilList);
             prettyPrint();
         }
@@ -39,7 +39,7 @@ function setMenuDataList(info){
             }),
             editing = new Grid.Plugins.CellEditing(),
             grid = new Grid.Grid({
-                render : '#menuInformationData',
+                render : '#submenuInformationData',
                 columns : [{title : 'ID',dataIndex :'id',editor : {xtype : "text",rules:{required:true}}},
                     {title : '名字',dataIndex :'text',editor : {xtype : 'text',rules:{required:true}}},
                     {title : 'URL地址',dataIndex :'href',width:250,editor : {xtype : 'text',rules:{required:true}}},
@@ -121,6 +121,6 @@ function preservationMenuData(){
         })
     }
 }
-function addMenuClassification(value){
-    $("#content").attr("hide", "");
+function addMenuClassification(){
+    window.location.href="/systemSettings/addMenuInformation.do"
 }

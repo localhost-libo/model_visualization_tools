@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>新增一级菜单</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/assets/jquery/jquery-3.3.1.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <div th:include="public/head :: head" />
+    <style type="text/css">
+        code {
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card-body">
+    </div>
+    <hr>
+    <div id="addMenuInformationData"></div>
+    <p>
+        <button id="btnSave" class="button button-primary" onclick="preservationMenuData()">提交</button>
+        <button  class="button button-primary" onclick="window.history.back(-1)">关闭</button>
+    </p>
+</div>
+
+</body>
+
+
+<script type="text/javascript" src="/assets/js/bui-min.js"></script>
+
+<script type="text/javascript" src="/assets/js/config-min.js"></script>
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+<!-- 仅仅为了显示代码使用，不要在项目中引入使用-->
+<script type="text/javascript" src="/assets/js/prettify.js"></script>
+<script type="text/javascript">
+    $(function () {
+        obtainUserData();
+    });
+</script>
+<script type="text/javascript" src="/systemSettings/addMenuInformation.js"></script>
+</html>

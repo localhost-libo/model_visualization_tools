@@ -16,7 +16,7 @@ public interface SystemSettingsService {
 
     Map toIndex(ModelMap modelMap, HttpServletRequest request);
 
-    void toMenuInformation(ModelMap modelMap, HttpServletRequest request);
+    void toSubmenuInformation(ModelMap modelMap, HttpServletRequest request);
 
     Map gettestData(MenuUtil menuUtil);
 
@@ -37,4 +37,10 @@ public interface SystemSettingsService {
     void userDataOperation(UserData userData);
 
     String testLinux();
+
+    /**
+     * 获取一级菜单信息
+     * @return
+     */
+    Map getMenuData();
 }

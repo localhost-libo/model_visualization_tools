@@ -41,15 +41,15 @@ public class SystemSettingsServiceImpl implements SystemSettingsService {
         List<MenuUtilOne> menuUtilOneList = new ArrayList<>();
         List<String> categoryList = null;
         if (request.getSession().getAttribute("loginUser").equals("管理员")){
-            categoryList = systemSettingsMapper.selectMenuUtilCategoryData();
+            categoryList = systemSettingsMapper.selectSubmenuUtilCategoryData();
         }else{
-            categoryList = systemSettingsMapper.selectMenuUtilCategoryDatas();
+            categoryList = systemSettingsMapper.selectSubmenuUtilCategoryDatas();
         }
         for (int i = 0; i < categoryList.size();i++){
             MenuUtilOne menuUtilOne = new MenuUtilOne();
             menuUtilOne.setId(categoryList.get(i));
             menuUtil.setCategory(categoryList.get(i));
-            List<String> nameList = systemSettingsMapper.selectMenuData(menuUtil);
+            List<String> nameList = systemSettingsMapper.selectSubmenuData(menuUtil);
             List<MenuUtilTwo> menuUtilTwoList = new ArrayList<>();
             for (int a = 0; a < nameList.size(); a++ ){
                 MenuUtilTwo menuUtilTwo = new MenuUtilTwo();
@@ -75,8 +75,8 @@ public class SystemSettingsServiceImpl implements SystemSettingsService {
         return map;
     }
 
-    public void toMenuInformation(ModelMap modelMap, HttpServletRequest request){
-        List<String> categoryList = systemSettingsMapper.selectMenuUtilCategoryData();
+    public void toSubmenuInformation(ModelMap modelMap, HttpServletRequest request){
+        List<String> categoryList = systemSettingsMapper.selectSubmenuUtilCategoryData();
 
         modelMap.put("categoryList",categoryList);
     }
@@ -248,4 +248,13 @@ public class SystemSettingsServiceImpl implements SystemSettingsService {
         }
     }
 
+    /**
+     * 获取一级菜单信息
+     * @return
+     */
+    public  Map getMenuData(){
+        Map map = new HashMap();
+        map.put("menuDataList",JSONObject.toJSON(systemSettingsMapper.selectMenuData()).toString());
+        return map;
+    }
 }

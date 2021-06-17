@@ -10,11 +10,11 @@ public interface SystemSettingsMapper {
 
     List<SubMenu> selectSudMenuData(MenuUtil menuUtil);
 
-    List<String> selectMenuData(MenuUtil menuUtil);
+    List<String> selectSubmenuData(MenuUtil menuUtil);
 
-    List<String> selectMenuUtilCategoryData();
+    List<String> selectSubmenuUtilCategoryData();
 
-    List<String> selectMenuUtilCategoryDatas();
+    List<String> selectSubmenuUtilCategoryDatas();
 
     List<MenuUtil> selectMenuUtilNameData(MenuUtil menuUtil);
 
@@ -37,4 +37,6 @@ public interface SystemSettingsMapper {
     void insertUserDataDivision(UserData userData);
 
     void deleteUserDataDivision();
+
+    List<MenuUtil> selectMenuData();
 }
