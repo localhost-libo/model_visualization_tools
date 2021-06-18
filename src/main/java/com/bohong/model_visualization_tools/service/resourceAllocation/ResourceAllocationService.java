@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface ResourceAllocationService {
 
-    void  toSparkParameter(ModelMap modelMap);
+
 
     /**
      * Hive参数配置 获取数据

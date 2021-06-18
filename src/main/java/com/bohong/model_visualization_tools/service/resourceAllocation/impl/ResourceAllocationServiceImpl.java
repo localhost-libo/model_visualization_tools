@@ -39,6 +39,10 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         map.put("user_id",request.getSession().getAttribute("user").toString());
         map.put("category_id","hive");
         List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        if (baseParams.size() == 0){
+            map.put("user_id","supadmin");
+            baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        }
         HiveResourceAllocation hiveResourceAllocation = new HiveResourceAllocation();
         for (int i = 0; i < baseParams.size(); i++) {
             switch (baseParams.get(i).getParam_name()){
@@ -295,82 +299,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         }
     }
 
-    public void toSparkParameter(ModelMap modelMap){
-        modelMap.put("sparkParameter",getSparkParameterData());
-    }
 
-
-    public List<String[]> readTxt(String filePath) {
-        try {
-            List<String[]> result = new ArrayList<>();
-            InputStream stream = getClass().getClassLoader().getResourceAsStream(filePath);
-            BufferedReader br = null;
-            try {
-                br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
-                String lineTxt = null;
-                while ((lineTxt = br.readLine()) != null) {
-                    String[] dataStr = lineTxt.split("\t");
-                    result.add(dataStr);
-                }
-                br.close();
-            } catch (FileNotFoundException e) {
-                log.error("FileNotFoundException:" + e);
-            } catch (IOException e) {
-                log.error("IOException:" + e);
-            } finally {
-                if (br != null) {
-                    try {
-                        br.close();
-                    } catch (IOException e) {
-                        log.error("close br error:" + e);
-                    }
-                }
-            }
-            return result;
-        } catch (Exception e) {
-            System.out.println("文件读取错误!");
-        }
-        return null;
-    }
-
-    private SparkParameter getSparkParameterData()  {
-        String c = System.getProperty("user.dir");
-        String filePath= null;
-        if (c.equals("/home/modelVisual")){
-            filePath = "/home/modelVisual/config/spark.json";
-        }else {
-            filePath= c+"/src/main/resources/config/spark.json";
-        }
-        SparkParameter sparkParameter = null;
-////        String filePath= c+"/src/main/resources/config/pg.txt";
-//        String filePath= "/root/testlibo/pg.txt";
-        File file=new File(filePath);
-        BufferedReader reader = null;
-        String tempString = null;
-        int line =1;
-        try {
-            // System.out.println("以行为单位读取文件内容，一次读一整行：");
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"GBK"));
-            while ((tempString = reader.readLine()) != null) {
-                sparkParameter = JSONObject.parseObject(tempString, SparkParameter.class);
-                line ++ ;
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            if(reader != null){
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return sparkParameter;
-    }
 
 
     public Map querySparkResourceAllocationData(HttpServletRequest request, HttpServletResponse response){
@@ -379,6 +308,10 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         map.put("user_id",request.getSession().getAttribute("user").toString());
         map.put("category_id","spark");
         List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        if (baseParams.size() == 0){
+            map.put("user_id","supadmin");
+            baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        }
         SparkParameter sparkResourceAllocation = new SparkParameter();
         for (int i = 0; i < baseParams.size(); i++) {
             switch (baseParams.get(i).getParam_name()){
@@ -459,6 +392,10 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
      map.put("user_id",request.getSession().getAttribute("user").toString());
      map.put("category_id","python");
      List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+     if (baseParams.size() == 0){
+         map.put("user_id","supadmin");
+         baseParams = mysqlTestMapper.selectBaseParamLike(map);
+     }
      PythonResourceAllocation pythonResourceAllocation = new PythonResourceAllocation();
      for (int i = 0; i < baseParams.size(); i++) {
          switch (baseParams.get(i).getParam_name()){
@@ -481,6 +418,10 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         map.put("user_id",request.getSession().getAttribute("user").toString());
         map.put("category_id","path");
         List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        if (baseParams.size() == 0){
+            map.put("user_id","supadmin");
+            baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        }
         PathConfiguration pathResourceAllocation = new PathConfiguration();
         for (int i = 0; i < baseParams.size(); i++) {
             switch (baseParams.get(i).getParam_name()){

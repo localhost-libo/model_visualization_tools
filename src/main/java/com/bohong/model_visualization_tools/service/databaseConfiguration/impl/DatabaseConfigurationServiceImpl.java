@@ -174,28 +174,32 @@ public class DatabaseConfigurationServiceImpl implements DatabaseConfigurationSe
         map.put("category_id", "config");
         map.put("param_name",sign == 1 ? "MySQL%" : "HIVE%" );
         List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        if (baseParams.size() == 0){
+            map.put("user_id","supadmin");
+            baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        }
         for (int i = 0; i < baseParams.size(); i++) {
             if (sign == 1){
                 switch (baseParams.get(i).getParam_name()){
-                case "MySQL-HOST":
-                    database.setHost(baseParams.get(i).getParam_value());
-                    break;
-                case "MySQL-PORT":
-                    database.setPort(baseParams.get(i).getParam_value());
-                    break;
-                case "MySQL-USER":
-                    database.setUser(baseParams.get(i).getParam_value());
-                    break;
-                case "MySQL-PSWD":
-                    database.setPswd(baseParams.get(i).getParam_value());
-                    break;
-                case "MySQL-DBNM":
-                    database.setDbnm(baseParams.get(i).getParam_value());
-                    break;
-                case "MySQL-INST":
-                    database.setInst(baseParams.get(i).getParam_value());
-                    break;
-            }}else {switch (baseParams.get(i).getParam_name()){
+                    case "MySQL-HOST":
+                        database.setHost(baseParams.get(i).getParam_value());
+                        break;
+                    case "MySQL-PORT":
+                        database.setPort(baseParams.get(i).getParam_value());
+                        break;
+                    case "MySQL-USER":
+                        database.setUser(baseParams.get(i).getParam_value());
+                        break;
+                    case "MySQL-PSWD":
+                        database.setPswd(baseParams.get(i).getParam_value());
+                        break;
+                    case "MySQL-DBNM":
+                        database.setDbnm(baseParams.get(i).getParam_value());
+                        break;
+                    case "MySQL-INST":
+                        database.setInst(baseParams.get(i).getParam_value());
+                        break;
+                }}else {switch (baseParams.get(i).getParam_name()){
                 case "HIVE-HOST":
                     database.setHost(baseParams.get(i).getParam_value());
                     break;
