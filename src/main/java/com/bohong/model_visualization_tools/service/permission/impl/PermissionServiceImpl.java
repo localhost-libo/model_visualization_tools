@@ -33,6 +33,7 @@ public class PermissionServiceImpl implements PermissionService {
        List<User> users = permissionMapper.selectVerificationLogin(user);
        if (users.size() != 0){
            Session.setAttribute("loginUser",users.get(0).getReal_name());
+           Session.setAttribute("user",users.get(0).getUser_name());
            Session.setAttribute("group",users.get(0).getGroup());
            map.put("result",true);
            return map;

@@ -22,8 +22,8 @@
             <form class="form-horizontal" id="databaseForm" action="/databaseConfiguration/updateDatabase.do">
                 <div class="form-group">
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input id="pgtype" type="radio" name="type"  checked="checked" class="custom-control-input" th:value="${database.type}" onclick="changeData(1)">
-                    <label for="pgtype" class="custom-control-label">PG</label>
+                    <input id="MySQLtype" type="radio" name="type"  checked="checked" class="custom-control-input" th:value="${database.type}" onclick="changeData(1)">
+                    <label for="MySQLtype" class="custom-control-label">MySQL</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input id="hivetype" type="radio" name="type"  class="custom-control-input" th:value="${database.type}" onclick="changeData(2)">
@@ -64,7 +64,7 @@
                 <div class="line"></div>
                 <div class="form-group row">
                     <div class="col-md-9 ml-auto">
-                        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="upadtePgDatabase()">保存</button>
+                        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="upadteDatabase()">保存</button>
                     </div>
                 </div>
             </form>
@@ -73,7 +73,8 @@
 </div>
 </body>
 <script type="text/javascript">
-    function upadtePgDatabase(){
+
+    function upadteDatabase(){
         var FormData =  $("#databaseForm").serialize();
         var url = $("#databaseForm").attr('action');
         $.ajax({
@@ -83,13 +84,14 @@
             dataType: "json",
             cache: false,
             success: function (data){
+                alert(data.info)
                 window.location.reload();
             }
         })
     }
     function changeData(sign){
         $.ajax({
-            url: "/changeData.do?sign="+sign,
+            url: "/databaseConfiguration/changeData.do?sign="+sign,
             type: "post",
             dataType: "json",
             cache: false,

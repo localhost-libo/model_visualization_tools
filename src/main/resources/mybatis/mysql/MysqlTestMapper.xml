@@ -6,4 +6,29 @@
         SELECT #{features_model_id} as features_model_id, c.`COMMENT` as describes,c.COLUMN_NAME as field,c.TYPE_NAME ,c.INTEGER_IDX as field_type from TBLS t,COLUMNS_V2 c WHERE t.TBL_ID = c.CD_ID AND TBL_NAME = #{data_sheet}
     </select>
 
+
+    <select id="selectBaseParamLike"  parameterType="java.util.Map" resultType="com.bohong.model_visualization_tools.domain.databaseConfiguration.BaseParam">
+        SELECT * from dwa_clue_base_param WHERE 1=1
+        <if test="user_id!=null and user_id!=''">
+            and  user_id = #{user_id}
+        </if>
+        <if test="category_id!=null and category_id!=''">
+            and category_id = #{category_id}
+        </if>
+        <if test="param_name!=null and param_name!=''">
+            and param_name like #{param_name}
+        </if>
+    </select>
+
+    <update id="updateBaseParamData" parameterType="java.util.Map">
+        UPDATE dwa_clue_base_param SET param_value = #{param_value,jdbcType=VARCHAR},param_date = current_timestamp
+        WHERE user_id =  #{user_id,jdbcType=VARCHAR} and category_id = #{category_id,jdbcType=VARCHAR}
+        <if test="param_name!=null and param_name!=''">
+            and param_name = #{param_name,jdbcType=VARCHAR}
+        </if>
+    </update>
+    <insert id="insertBaseParamData" parameterType="java.util.Map">
+        INSERT into dwa_clue_base_param ( category_id,param_name,param_value,param_date,user_id)
+            values(#{category_id,jdbcType=VARCHAR},#{param_name,jdbcType=VARCHAR},#{param_value,jdbcType=VARCHAR},current_timestamp,#{user_id,jdbcType=VARCHAR})
+    </insert>
 </mapper>

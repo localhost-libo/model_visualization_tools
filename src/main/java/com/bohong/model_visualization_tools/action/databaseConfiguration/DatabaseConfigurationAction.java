@@ -9,6 +9,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -20,21 +23,31 @@ public class DatabaseConfigurationAction {
     private Environment environment;
 
     @RequestMapping(value = "/databaseConfiguration/topgDatabase.do")
-    public String topgDatabase(ModelMap modelMap){
-        databaseConfigurationService.toDatabase(modelMap);
+    public String topgDatabase(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap){
+        databaseConfigurationService.toDatabase(request,response,modelMap);
         return "databaseConfiguration/configuration";
     }
 
     @ResponseBody
     @RequestMapping(value = "/databaseConfiguration/updateDatabase.do")
-    public Map updatePgDatabaseAction(Database Database){
-        return databaseConfigurationService.updateDatabaseService(Database);
+    public Map updatePgDatabaseAction(HttpServletRequest request, HttpServletResponse response,Database Database){
+        Map resultMap = new HashMap();
+        resultMap.put("sign",true);
+        resultMap.put("info","修改成功");
+        try {
+            databaseConfigurationService.updateDatabaseService(request,response,Database);
+        }catch (Exception e){
+            resultMap.put("sign",false);
+            resultMap.put("info","修改失败");
+            e.printStackTrace();
+        }
+        return resultMap;
     }
 
 
     @ResponseBody
-    @RequestMapping(value = "/changeData.do")
-    public Database changeData(Integer sign){
-       return databaseConfigurationService.changeData(sign);
+    @RequestMapping(value = "/databaseConfiguration/changeData.do")
+    public Database changeData(HttpServletRequest request, HttpServletResponse response, Integer sign){
+       return databaseConfigurationService.changeData(request,response,sign);
     }
 }

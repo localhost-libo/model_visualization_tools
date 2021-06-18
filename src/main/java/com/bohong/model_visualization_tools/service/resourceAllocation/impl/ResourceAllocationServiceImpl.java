@@ -1,24 +1,21 @@
 package com.bohong.model_visualization_tools.service.resourceAllocation.impl;
 
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.druid.sql.visitor.functions.Char;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bohong.model_visualization_tools.domain.databaseConfiguration.Database;
+import com.bohong.model_visualization_tools.domain.databaseConfiguration.BaseParam;
+import com.bohong.model_visualization_tools.domain.resourceAllocation.HiveResourceAllocation;
+import com.bohong.model_visualization_tools.domain.resourceAllocation.PythonResourceAllocation;
 import com.bohong.model_visualization_tools.domain.resourceAllocation.SparkParameter;
-import com.bohong.model_visualization_tools.mapper.hive.TestHiveMapper;
+import com.bohong.model_visualization_tools.mapper.mysql.MysqlTestMapper;
 import com.bohong.model_visualization_tools.service.resourceAllocation.ResourceAllocationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.ClassUtils;
 
-import javax.swing.*;
+import javax.jdo.annotations.Transactional;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLDecoder;
-import java.sql.*;
 import java.util.*;
 
 @Slf4j
@@ -26,12 +23,276 @@ import java.util.*;
 public class ResourceAllocationServiceImpl implements ResourceAllocationService {
 
     @Autowired
-    private TestHiveMapper testHiveMapper;
+    private MysqlTestMapper mysqlTestMapper;
 
-    @Value("${file.path}")
-    private String path;
-    private static String driverName = "org.apache.hive.jdbc.HiveDriver";
 
+    /**
+     * Hive参数配置 获取数据
+     * @param request
+     * @param response
+     * @return
+     */
+    public Map queryHiveResourceAllocationData(HttpServletRequest request, HttpServletResponse response)  {
+        Map resultMap = new HashMap();
+        Map map = new HashMap();
+        map.put("user_id",request.getSession().getAttribute("user").toString());
+        map.put("category_id","hive");
+        List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        HiveResourceAllocation hiveResourceAllocation = new HiveResourceAllocation();
+        for (int i = 0; i < baseParams.size(); i++) {
+            switch (baseParams.get(i).getParam_name()){
+                case "mapreduce_map_memory_mb":
+                    hiveResourceAllocation.setMapreduce_map_memory_mb(baseParams.get(i).getParam_value());
+                    break;
+                case "mapreduce_reduce_memory_mb":
+                    hiveResourceAllocation.setMapreduce_reduce_memory_mb(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_map_aggr":
+                    hiveResourceAllocation.setHive_map_aggr(baseParams.get(i).getParam_value());
+                    break;
+                case "mapreduce_job_priority":
+                    hiveResourceAllocation.setMapreduce_job_priority(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_exec_compress_output":
+                    hiveResourceAllocation.setHive_exec_compress_output(baseParams.get(i).getParam_value());
+                    break;
+                case "mapred_output_compression_codec":
+                    hiveResourceAllocation.setMapred_output_compression_codec(baseParams.get(i).getParam_value());
+                    break;
+                case "mapred_output_compression_type":
+                    hiveResourceAllocation.setMapred_output_compression_type(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_exec_reducers_bytes_per_reducer":
+                    hiveResourceAllocation.setHive_exec_reducers_bytes_per_reducer(baseParams.get(i).getParam_value());
+                    break;
+                case "mapred_max_split_size":
+                    hiveResourceAllocation.setMapred_max_split_size(baseParams.get(i).getParam_value());
+                    break;
+                case "mapred_min_split_size_per_node":
+                    hiveResourceAllocation.setMapred_min_split_size_per_node(baseParams.get(i).getParam_value());
+                    break;
+                case "mapred_min_split_size_per_rack":
+                    hiveResourceAllocation.setMapred_min_split_size_per_rack(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_hadoop_supports_splittable_combineinputformat":
+                    hiveResourceAllocation.setHive_hadoop_supports_splittable_combineinputformat(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_input_format":
+                    hiveResourceAllocation.setHive_input_format(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_merge_mapfiles":
+                    hiveResourceAllocation.setHive_merge_mapfiles(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_merge_mapredfiles":
+                    hiveResourceAllocation.setHive_merge_mapredfiles(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_merge_size_per_task":
+                    hiveResourceAllocation.setHive_merge_size_per_task(baseParams.get(i).getParam_value());
+                    break;
+                case "hive_merge_smallfiles_avgsize":
+                    hiveResourceAllocation.setHive_merge_smallfiles_avgsize(baseParams.get(i).getParam_value());
+                    break;
+            }
+        }
+        resultMap.put("hiveResourceAllocation",hiveResourceAllocation);
+        return resultMap;
+    }
+
+
+    /**
+     * 修改hive参数配置数据
+     * @param request
+     * @param response
+     * @param hiveResourceAllocation
+     */
+    @Transactional
+    public void updateHiveResourceAllocationData(HttpServletRequest request, HttpServletResponse response, HiveResourceAllocation hiveResourceAllocation){
+        Map map = new HashMap();
+        map.put("user_id",request.getSession().getAttribute("user").toString());
+        map.put("category_id","hive");
+        List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        if (baseParams.size() != 17){
+            for (int i = 0; i < 17; i++) {
+                switch (i){
+                    case 0:
+                        map.put("param_name","mapreduce_map_memory_mb");
+                        map.put("param_value",hiveResourceAllocation.getMapreduce_map_memory_mb());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 1:
+                        map.put("param_name","mapreduce_reduce_memory_mb");
+                        map.put("param_value",hiveResourceAllocation.getMapreduce_reduce_memory_mb());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 2:
+                        map.put("param_name","hive_map_aggr");
+                        map.put("param_value",hiveResourceAllocation.getHive_map_aggr());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 3:
+                        map.put("param_name","mapreduce_job_priority");
+                        map.put("param_value",hiveResourceAllocation.getMapreduce_job_priority());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 4:
+                        map.put("param_name","hive_exec_compress_output");
+                        map.put("param_value",hiveResourceAllocation.getHive_exec_compress_output());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 5:
+                        map.put("param_name","mapred_output_compression_codec");
+                        map.put("param_value",hiveResourceAllocation.getMapred_output_compression_codec());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 6:
+                        map.put("param_name","mapred_output_compression_type");
+                        map.put("param_value",hiveResourceAllocation.getMapred_output_compression_type());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 7:
+                        map.put("param_name","hive_exec_reducers_bytes_per_reducer");
+                        map.put("param_value",hiveResourceAllocation.getHive_exec_reducers_bytes_per_reducer());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 8:
+                        map.put("param_name","mapred_max_split_size");
+                        map.put("param_value",hiveResourceAllocation.getMapred_max_split_size());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 9:
+                        map.put("param_name","mapred_min_split_size_per_node");
+                        map.put("param_value",hiveResourceAllocation.getMapred_min_split_size_per_node());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 10:
+                        map.put("param_name","mapred_min_split_size_per_rack");
+                        map.put("param_value",hiveResourceAllocation.getMapred_min_split_size_per_rack());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 11:
+                        map.put("param_name","hive_hadoop_supports_splittable_combineinputformat");
+                        map.put("param_value",hiveResourceAllocation.getHive_hadoop_supports_splittable_combineinputformat());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 12:
+                        map.put("param_name","hive_input_format");
+                        map.put("param_value",hiveResourceAllocation.getHive_input_format());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 13:
+                        map.put("param_name","hive_merge_mapfiles");
+                        map.put("param_value",hiveResourceAllocation.getHive_merge_mapfiles());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 14:
+                        map.put("param_name","hive_merge_mapredfiles");
+                        map.put("param_value",hiveResourceAllocation.getHive_merge_mapredfiles());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 15:
+                        map.put("param_name","hive_merge_size_per_task");
+                        map.put("param_value",hiveResourceAllocation.getHive_merge_size_per_task());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 16:
+                        map.put("param_name","hive_merge_smallfiles_avgsize");
+                        map.put("param_value",hiveResourceAllocation.getHive_merge_smallfiles_avgsize());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                }
+            }
+        }else {
+            for (int i = 0; i < baseParams.size(); i++) {
+                switch (i){
+                    case 0:
+                        map.put("param_name","mapreduce_map_memory_mb");
+                        map.put("param_value",hiveResourceAllocation.getMapreduce_map_memory_mb());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 1:
+                        map.put("param_name","mapreduce_reduce_memory_mb");
+                        map.put("param_value",hiveResourceAllocation.getMapreduce_reduce_memory_mb());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 2:
+                        map.put("param_name","hive_map_aggr");
+                        map.put("param_value",hiveResourceAllocation.getHive_map_aggr());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 3:
+                        map.put("param_name","mapreduce_job_priority");
+                        map.put("param_value",hiveResourceAllocation.getMapreduce_job_priority());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 4:
+                        map.put("param_name","hive_exec_compress_output");
+                        map.put("param_value",hiveResourceAllocation.getHive_exec_compress_output());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 5:
+                        map.put("param_name","mapred_output_compression_codec");
+                        map.put("param_value",hiveResourceAllocation.getMapred_output_compression_codec());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 6:
+                        map.put("param_name","mapred_output_compression_type");
+                        map.put("param_value",hiveResourceAllocation.getMapred_output_compression_type());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 7:
+                        map.put("param_name","hive_exec_reducers_bytes_per_reducer");
+                        map.put("param_value",hiveResourceAllocation.getHive_exec_reducers_bytes_per_reducer());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 8:
+                        map.put("param_name","mapred_max_split_size");
+                        map.put("param_value",hiveResourceAllocation.getMapred_max_split_size());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 9:
+                        map.put("param_name","mapred_min_split_size_per_node");
+                        map.put("param_value",hiveResourceAllocation.getMapred_min_split_size_per_node());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 10:
+                        map.put("param_name","mapred_min_split_size_per_rack");
+                        map.put("param_value",hiveResourceAllocation.getMapred_min_split_size_per_rack());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 11:
+                        map.put("param_name","hive_hadoop_supports_splittable_combineinputformat");
+                        map.put("param_value",hiveResourceAllocation.getHive_hadoop_supports_splittable_combineinputformat());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 12:
+                        map.put("param_name","hive_input_format");
+                        map.put("param_value",hiveResourceAllocation.getHive_input_format());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 13:
+                        map.put("param_name","hive_merge_mapfiles");
+                        map.put("param_value",hiveResourceAllocation.getHive_merge_mapfiles());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 14:
+                        map.put("param_name","hive_merge_mapredfiles");
+                        map.put("param_value",hiveResourceAllocation.getHive_merge_mapredfiles());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 15:
+                        map.put("param_name","hive_merge_size_per_task");
+                        map.put("param_value",hiveResourceAllocation.getHive_merge_size_per_task());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case 16:
+                        map.put("param_name","hive_merge_smallfiles_avgsize");
+                        map.put("param_value",hiveResourceAllocation.getHive_merge_smallfiles_avgsize());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                }
+            }
+        }
+    }
 
     public void toSparkParameter(ModelMap modelMap){
         modelMap.put("sparkParameter",getSparkParameterData());
@@ -70,44 +331,7 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         }
         return null;
     }
-    public void toSparkParameters(ModelMap modelMap) throws Exception {
-//        ResourceAllocationServiceImpl resourceAllocationService = new ResourceAllocationServiceImpl();
-//        List<String[]> S =  resourceAllocationService.readTxt("config/pg.json");
-//        String a = null;
-//        for (int i = 1; i<= S.size(); i++){
-//            a = Arrays.toString(S.get(i-1));
-//        }
-//        System.out.println(a);
-//        char prefix = '[';
-//        char suffix = ']';
-//        a =  StrUtil.unWrap(a,prefix,suffix);
-//        Database database = JSONObject.parseObject(a, Database.class);
-//        System.out.println(database.toString());
-//        System.out.println(ResourceAllocationServiceImpl.class.getClassLoader());
-//        File file = new File(ResourceAllocationServiceImpl.class.getClassLoader().getResource("config/pg.json").getFile());
-//        System.out.println(file);
-        try {
-            Class.forName(driverName);
-        }catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.exit(1);
-        }
-        Connection con = DriverManager.getConnection("jdbc:hive2://10.1.1.104:10000/test", "hadoop", "hadoop");//后两个参数是用户名密码
-        if(con==null)
-            System.out.println("连接失败");
-        else {
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM test limit 1";
-            System.out.println("Running: " + sql);
-            ResultSet res = stmt.executeQuery(sql);
-            int a=0;
-            while (res.next()) {
-                System.out.println(res.getString(1));
-                modelMap.put("s",res.getString(1));
-            }
-        }
-    }
+
     private SparkParameter getSparkParameterData()  {
         String c = System.getProperty("user.dir");
         String filePath= null;
@@ -148,41 +372,151 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
     }
 
 
-    public Map updateSparkParameter(SparkParameter sparkParameter){
+    public Map querySparkResourceAllocationData(HttpServletRequest request, HttpServletResponse response){
         Map resultMap = new HashMap();
-        sparkParameter.setType("spark");
-        resultMap.put("sign",true);
-        resultMap.put("info","修改成功");
-        String c = System.getProperty("user.dir");
-        System.out.println(c);
-        String filePath= null;
-        if (c.equals("/home/modelVisual")){
-            filePath = "/home/modelVisual/config/"+sparkParameter.getType()+".json";
-        }else {
-            filePath= c+"/src/main/resources/config/"+sparkParameter.getType()+".json";
+        Map map = new HashMap();
+        map.put("user_id",request.getSession().getAttribute("user").toString());
+        map.put("category_id","spark");
+        List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        SparkParameter sparkResourceAllocation = new SparkParameter();
+        for (int i = 0; i < baseParams.size(); i++) {
+            switch (baseParams.get(i).getParam_name()){
+                case "num_executors":
+                    sparkResourceAllocation.setNum_executors(baseParams.get(i).getParam_value());
+                    break;
+                case "executor_memory":
+                    sparkResourceAllocation.setExecutor_memory(baseParams.get(i).getParam_value());
+                    break;
+                case "executor_cores":
+                    sparkResourceAllocation.setExecutor_cores(baseParams.get(i).getParam_value());
+                    break;
+            }
         }
-        File file=new File(filePath);
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(file);
-            String json= JSON.toJSONString(sparkParameter);
-            fw.write(json);
-            System.out.println("修改数据成功");
-        } catch (IOException e) {
-            resultMap.put("sign",false);
-            resultMap.put("info","修改失败");
-            e.printStackTrace();
-        }finally {
-            if (fw != null){
-                try {
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        resultMap.put("sparkResourceAllocation",sparkResourceAllocation);
+        return resultMap;
+
+    }
+
+    /**
+     * 修改spark 参数配置
+     * @param request
+     * @param response
+     * @param sparkParameter
+     */
+    @Transactional
+    public void updateSparkResourceAllocationData(HttpServletRequest request, HttpServletResponse response, SparkParameter sparkParameter ){
+
+        Map map = new HashMap();
+        map.put("user_id",request.getSession().getAttribute("user").toString());
+        map.put("category_id", "spark");
+        List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        if (baseParams.size() == 3){
+            for (int i = 0; i < baseParams.size(); i++) {
+                switch (baseParams.get(i).getParam_name()) {
+                    case "num_executors":
+                        map.put("param_name","num_executors");
+                        map.put("param_value",sparkParameter.getNum_executors());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case "executor_memory":
+                        map.put("param_name","executor_memory");
+                        map.put("param_value",sparkParameter.getExecutor_memory());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case "executor_cores":
+                        map.put("param_name","executor_cores");
+                        map.put("param_value",sparkParameter.getExecutor_cores());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                }
+            }
+        }else {
+            for (int i = 0; i < 3; i++) {
+                switch (i) {
+                    case 0:
+                        map.put("param_name","num_executors");
+                        map.put("param_value",sparkParameter.getNum_executors());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 1:
+                        map.put("param_name","executor_memory");
+                        map.put("param_value",sparkParameter.getExecutor_memory());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 2:
+                        map.put("param_name","executor_cores");
+                        map.put("param_value",sparkParameter.getExecutor_cores());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
                 }
             }
         }
-        return resultMap;
+    }
+ public Map queryPythonResourceAllocationData(HttpServletRequest request, HttpServletResponse response){
+     Map resultMap = new HashMap();
+     Map map = new HashMap();
+     map.put("user_id",request.getSession().getAttribute("user").toString());
+     map.put("category_id","python");
+     List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+     PythonResourceAllocation pythonResourceAllocation = new PythonResourceAllocation();
+     for (int i = 0; i < baseParams.size(); i++) {
+         switch (baseParams.get(i).getParam_name()){
+             case "pyspark_python":
+                 pythonResourceAllocation.setPyspark_python(baseParams.get(i).getParam_value());
+                 break;
+             case "pyspark_driver_python":
+                 pythonResourceAllocation.setPyspark_driver_python(baseParams.get(i).getParam_value());
+                 break;
+         }
+     }
+     resultMap.put("pythonResourceAllocation",pythonResourceAllocation);
+     return resultMap;
 
+ }
+
+    /**
+     * 修改python 参数配置
+     * @param request
+     * @param response
+     */
+    @Transactional
+    public void updatePythonResourceAllocationData(HttpServletRequest request, HttpServletResponse response, PythonResourceAllocation pythonResourceAllocation ){
+
+        Map map = new HashMap();
+        map.put("user_id",request.getSession().getAttribute("user").toString());
+        map.put("category_id", "python");
+        List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        if (baseParams.size() == 2){
+            for (int i = 0; i < baseParams.size(); i++) {
+                switch (baseParams.get(i).getParam_name()) {
+                    case "num_executors":
+                        map.put("param_name","pyspark_python");
+                        map.put("param_value",pythonResourceAllocation.getPyspark_python());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case "executor_memory":
+                        map.put("param_name","pyspark_driver_python");
+                        map.put("param_value",pythonResourceAllocation.getPyspark_driver_python());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                }
+            }
+        }else {
+            for (int i = 0; i < 2; i++) {
+                switch (i) {
+                    case 0:
+                        map.put("param_name","pyspark_python");
+                        map.put("param_value",pythonResourceAllocation.getPyspark_python());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 1:
+                        map.put("param_name","pyspark_driver_python");
+                        map.put("param_value",pythonResourceAllocation.getPyspark_driver_python());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                }
+            }
+        }
     }
 
 }

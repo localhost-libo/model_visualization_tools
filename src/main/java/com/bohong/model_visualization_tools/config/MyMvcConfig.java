@@ -29,6 +29,9 @@ public class MyMvcConfig implements WebMvcConfigurer {
                 registry.addViewController("/sampleDivision/trainingAndVerification.do").setViewName("sampleDivision/trainingAndVerification");
                 registry.addViewController("/test/toTestUrl.do").setViewName("test/testUrl");
                 registry.addViewController("/systemSettings/toUserInformation.do").setViewName("systemSettings/userInformation");
+                registry.addViewController("/resourceAllocation/toHiveResourceAllocationHtml.do").setViewName("resourceAllocation/hiveResourceAllocationData");
+                registry.addViewController("/resourceAllocation/toSparkResourceAllocationHtml.do").setViewName("resourceAllocation/sparkResourceAllocationData");
+                registry.addViewController("/resourceAllocation/toPythonResourceAllocationHtml.do").setViewName("resourceAllocation/pythonResourceAllocationData");
             }
             //配置拦截器
 //            @Override

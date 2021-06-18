@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Hive参数配置</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <script src="../assets/jquery/jquery-3.3.1.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="h6 text-uppercase mb-0">hive参数配置</h3>
+        </div>
+        <div class="card-body">
+            <form class="form-horizontal" id="hiveResourceAllocationForm" action="/resourceAllocation/updateHiveResourceAllocationData.do">
+
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">mapreduce.map.memory.mb
+                    </label>
+                    <input type="text"  class="form-control"  id="mapreduce_map_memory_mb" name="mapreduce_map_memory_mb">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">mapreduce.reduce.memory.mb</label>
+                    <input type="text"  class="form-control"   id="mapreduce_reduce_memory_mb" name="mapreduce_reduce_memory_mb">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.map.aggr</label>
+                    <input type="text"  class="form-control"   name="hive_map_aggr" id="hive_map_aggr">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">mapreduce.job.priority</label>
+                    <input type="text" class="form-control"    name="mapreduce_job_priority" id="mapreduce_job_priority">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.exec.compress.output</label>
+                    <input type="text"  class="form-control"   name="hive_exec_compress_output" id="hive_exec_compress_output">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">mapred.output.compression.codec
+                    </label>
+                    <input type="text"  class="form-control"   name="mapred_output_compression_codec" id="mapred_output_compression_codec">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">mapred.output.compression.type</label>
+                    <input type="text"  class="form-control"   name="mapred_output_compression_type" id="mapred_output_compression_type">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.exec.reducers.bytes.per.reducer</label>
+                    <input type="text"  class="form-control"  name="hive_exec_reducers_bytes_per_reducer" id="hive_exec_reducers_bytes_per_reducer">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">mapred.max.split.size</label>
+                    <input type="text"  class="form-control"   name="mapred_max_split_size" id="mapred_max_split_size">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">mapred.min.split.size.per.node</label>
+                    <input type="text"  class="form-control"   name="mapred_min_split_size_per_node" id="mapred_min_split_size_per_node">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">mapred.min.split.size.per.rack</label>
+                    <input type="text"  class="form-control"  name="mapred_min_split_size_per_rack" id="mapred_min_split_size_per_rack">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.hadoop.supports.splittable.combineinputformat</label>
+                    <input type="text"  class="form-control"   name="hive_hadoop_supports_splittable_combineinputformat" id="hive_hadoop_supports_splittable_combineinputformat">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.input.format</label>
+                    <input type="text"  class="form-control"  name="hive_input_format" id="hive_input_format">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.merge.mapfiles</label>
+                    <input type="text"  class="form-control"  name="hive_merge_mapfiles" id="hive_merge_mapfiles">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.merge.mapredfiles</label>
+                    <input type="text"  class="form-control"   name="hive_merge_mapredfiles" id="hive_merge_mapredfiles">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.merge.size.per.task</label>
+                    <input type="text"  class="form-control"  name="hive_merge_size_per_task" id="hive_merge_size_per_task">
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">hive.merge.smallfiles.avgsize</label>
+                    <input type="text"  class="form-control"   name="hive_merge_smallfiles_avgsize" id="hive_merge_smallfiles_avgsize">
+                </div>
+
+                <div class="line"></div>
+                <div class="form-group row">
+                    <div class="col-md-9 ml-auto">
+                        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="upadteHiveResourceAllocationData()">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        queryHiveResourceAllocationData();
+    });
+    function upadteHiveResourceAllocationData(){
+        var FormData =  $("#hiveResourceAllocationForm").serialize();
+        var url = $("#hiveResourceAllocationForm").attr('action');
+        $.ajax({
+            url: url,
+            data: FormData,
+            type: "post",
+            dataType: "json",
+            cache: false,
+            success: function (data){
+                alert(data.info)
+                window.location.reload();
+            }
+        })
+    }
+    function queryHiveResourceAllocationData(){
+        $.ajax({
+            url: "/resourceAllocation/queryHiveResourceAllocationData.do",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            success: function (data){
+                setData(data.hiveResourceAllocation);
+            }
+        })
+    }
+
+    function setData(data){
+        $("#mapreduce_map_memory_mb").val(data.mapreduce_map_memory_mb)
+        $("#mapreduce_reduce_memory_mb").val(data.mapreduce_reduce_memory_mb)
+        $("#hive_map_aggr").val(data.hive_map_aggr)
+        $("#mapreduce_job_priority").val(data.mapreduce_job_priority)
+        $("#hive_exec_compress_output").val(data.hive_exec_compress_output)
+        $("#mapred_output_compression_codec").val(data.mapred_output_compression_codec)
+        $("#mapred_output_compression_type").val(data.mapred_output_compression_type)
+        $("#hive_exec_reducers_bytes_per_reducer").val(data.hive_exec_reducers_bytes_per_reducer)
+        $("#mapred_max_split_size").val(data.mapred_max_split_size)
+        $("#mapred_min_split_size_per_node").val(data.mapred_min_split_size_per_node)
+        $("#mapred_min_split_size_per_rack").val(data.mapred_min_split_size_per_rack)
+        $("#hive_hadoop_supports_splittable_combineinputformat").val(data.hive_hadoop_supports_splittable_combineinputformat)
+        $("#hive_input_format").val(data.hive_input_format)
+        $("#hive_merge_mapfiles").val(data.hive_merge_mapfiles)
+        $("#hive_merge_mapredfiles").val(data.hive_merge_mapredfiles)
+        $("#hive_merge_size_per_task").val(data.hive_merge_size_per_task)
+        $("#hive_merge_smallfiles_avgsize").val(data.hive_merge_smallfiles_avgsize)
+
+    }
+</script>
+</html>
