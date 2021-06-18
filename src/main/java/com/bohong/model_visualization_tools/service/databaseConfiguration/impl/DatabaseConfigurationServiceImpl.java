@@ -49,40 +49,80 @@ public class DatabaseConfigurationServiceImpl implements DatabaseConfigurationSe
                 map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL%" : "HIVE%" );
                 List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
                 if (baseParams.size() == 6){
-                    for (int i = 0; i < baseParams.size(); i++) {
-                        switch (baseParams.get(i).getParam_name()) {
-                            case "MySQL-HOST":
-                                map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-HOST" : "HIVE-HOST");
-                                map.put("param_value",database.getHost());
-                                mysqlTestMapper.updateBaseParamData(map);
-                                break;
-                            case "MySQL-PORT":
-                                map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-PORT" : "HIVE-PORT");
-                                map.put("param_value",database.getPort());
-                                mysqlTestMapper.updateBaseParamData(map);
-                                break;
-                            case "MySQL-USER":
-                                map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-USER" : "HIVE-USER");
-                                map.put("param_value",database.getUser());
-                                mysqlTestMapper.updateBaseParamData(map);
-                                break;
-                            case "MySQL-PSWD":
-                                map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-PSWD" : "HIVE-PSWD");
-                                map.put("param_value",database.getPswd());
-                                mysqlTestMapper.updateBaseParamData(map);
-                                break;
-                            case "MySQL-DBNM":
-                                map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-DBNM" : "HIVE-DBNM");
-                                map.put("param_value",database.getDbnm());
-                                mysqlTestMapper.updateBaseParamData(map);
-                                break;
-                            case "MySQL-INST":
-                                map.put("param_value",database.getInst());
-                                map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-INST" : "HIVE-INST");
-                                mysqlTestMapper.updateBaseParamData(map);
-                                break;
+                    if(database.getType().equals("1")){
+                        for (int i = 0; i < baseParams.size(); i++) {
+                            switch (baseParams.get(i).getParam_name()) {
+                                case "MySQL-HOST":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-HOST" : "HIVE-HOST");
+                                    map.put("param_value",database.getHost());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "MySQL-PORT":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-PORT" : "HIVE-PORT");
+                                    map.put("param_value",database.getPort());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "MySQL-USER":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-USER" : "HIVE-USER");
+                                    map.put("param_value",database.getUser());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "MySQL-PSWD":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-PSWD" : "HIVE-PSWD");
+                                    map.put("param_value",database.getPswd());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "MySQL-DBNM":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-DBNM" : "HIVE-DBNM");
+                                    map.put("param_value",database.getDbnm());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "MySQL-INST":
+                                    map.put("param_value",database.getInst());
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-INST" : "HIVE-INST");
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                            }
+                        }
+
+                    }
+                    else {
+                        for (int i = 0; i < baseParams.size(); i++) {
+                            switch (baseParams.get(i).getParam_name()) {
+                                case "HIVE-HOST":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-HOST" : "HIVE-HOST");
+                                    map.put("param_value",database.getHost());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "HIVE-PORT":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-PORT" : "HIVE-PORT");
+                                    map.put("param_value",database.getPort());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "HIVE-USER":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-USER" : "HIVE-USER");
+                                    map.put("param_value",database.getUser());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "HIVE-PSWD":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-PSWD" : "HIVE-PSWD");
+                                    map.put("param_value",database.getPswd());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "HIVE-DBNM":
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-DBNM" : "HIVE-DBNM");
+                                    map.put("param_value",database.getDbnm());
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                                case "HIVE-INST":
+                                    map.put("param_value",database.getInst());
+                                    map.put("param_name",Integer.valueOf(database.getType()) == 1 ? "MySQL-INST" : "HIVE-INST");
+                                    mysqlTestMapper.updateBaseParamData(map);
+                                    break;
+                            }
                         }
                     }
+
                 }else {
                     for (int i = 0; i < 6; i++) {
                         switch (i) {
