@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>路径配置</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <!-- Google fonts - Popppins for copy-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800">
+    <script src="/assets/jquery/jquery-3.3.1.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="h6 text-uppercase mb-0">路径配置</h3>
+        </div>
+        <div class="card-body">
+            <form  class="form-horizontal" id="pathConfigurationDataForm" action="/resourceAllocation/updatePathConfigurationDataData.do">
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">MODEL_PATH</label>
+                    <input type="text" class="form-control"  id="model_path"  name="model_path">
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">HDFS_PATH</label>
+                    <input type="text"  class="form-control"  id="hdfs_path" name="hdfs_path" >
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">BASE_PATH</label>
+                    <input type="text"  class="form-control"  id="base_path" name="base_path" >
+                </div>
+                <div class="line"></div>
+                <div class="form-group">
+                    <label class="form-control-label text-uppercase">PROJ_PATH</label>
+                    <input type="text"  class="form-control"  id="proj_path" name="proj_path" >
+                </div>
+                <div class="line"></div>
+                <div class="form-group row">
+                    <div class="col-md-9 ml-auto">
+                        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="updatePathResourceAllocationData()">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        queryPathResourceAllocationData();
+    });
+    function updatePathResourceAllocationData(){
+        var FormData =  $("#pathConfigurationDataForm").serialize();
+        var url = $("#pathConfigurationDataForm").attr('action');
+        $.ajax({
+            url: url,
+            data: FormData,
+            type: "post",
+            dataType: "json",
+            cache: false,
+            success: function (data){
+                alert(data.info);
+            }
+        })
+    }
+    function queryPathResourceAllocationData(){
+        $.ajax({
+            url: "/resourceAllocation/querypathConfigurationData.do",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            success: function (data){
+                setData(data.pathResourceAllocation);
+            }
+        })
+    }
+
+    function setData(data){
+        $("#model_path").val(data.model_path)
+        $("#hdfs_path").val(data.hdfs_path)
+        $("#base_path").val(data.base_path)
+        $("#proj_path").val(data.proj_path)
+    }
+</script>
+</html>

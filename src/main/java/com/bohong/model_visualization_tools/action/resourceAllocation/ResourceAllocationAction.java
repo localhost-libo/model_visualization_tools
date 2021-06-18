@@ -1,6 +1,7 @@
 package com.bohong.model_visualization_tools.action.resourceAllocation;
 
 import com.bohong.model_visualization_tools.domain.resourceAllocation.HiveResourceAllocation;
+import com.bohong.model_visualization_tools.domain.resourceAllocation.PathConfiguration;
 import com.bohong.model_visualization_tools.domain.resourceAllocation.PythonResourceAllocation;
 import com.bohong.model_visualization_tools.domain.resourceAllocation.SparkParameter;
 import com.bohong.model_visualization_tools.service.resourceAllocation.ResourceAllocationService;
@@ -110,6 +111,40 @@ public class ResourceAllocationAction {
         map.put("info","保存成功");
         try {
             resourceAllocationService.updatePythonResourceAllocationData(request,response,pythonResourceAllocation);
+        }catch (Exception e){
+            map.put("sign",false);
+            map.put("info","保存失败");
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     * 路径配置 获取数据
+     * @param request
+     * @param response
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/resourceAllocation/querypathConfigurationData.do")
+    public Map querypathConfigurationData(HttpServletRequest request, HttpServletResponse response)  {
+        return resourceAllocationService.querypathConfigurationData(request,response);
+    }
+
+    /**
+     * 修改 路径配置
+     * @param request
+     * @param response
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/resourceAllocation/updatePathConfigurationDataData.do")
+    public Map updatePathResourceAllocationData(HttpServletRequest request, HttpServletResponse response, PathConfiguration pathConfiguration)  {
+        Map map = new HashMap();
+        map.put("sign",true);
+        map.put("info","保存成功");
+        try {
+            resourceAllocationService.updatePathResourceAllocationData(request,response,pathConfiguration);
         }catch (Exception e){
             map.put("sign",false);
             map.put("info","保存失败");

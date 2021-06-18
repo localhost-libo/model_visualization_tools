@@ -3,6 +3,7 @@ package com.bohong.model_visualization_tools.service.resourceAllocation.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.bohong.model_visualization_tools.domain.databaseConfiguration.BaseParam;
 import com.bohong.model_visualization_tools.domain.resourceAllocation.HiveResourceAllocation;
+import com.bohong.model_visualization_tools.domain.resourceAllocation.PathConfiguration;
 import com.bohong.model_visualization_tools.domain.resourceAllocation.PythonResourceAllocation;
 import com.bohong.model_visualization_tools.domain.resourceAllocation.SparkParameter;
 import com.bohong.model_visualization_tools.mapper.mysql.MysqlTestMapper;
@@ -474,6 +475,32 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
 
  }
 
+    public   Map querypathConfigurationData(HttpServletRequest request, HttpServletResponse response){
+        Map resultMap = new HashMap();
+        Map map = new HashMap();
+        map.put("user_id",request.getSession().getAttribute("user").toString());
+        map.put("category_id","path");
+        List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        PathConfiguration pathResourceAllocation = new PathConfiguration();
+        for (int i = 0; i < baseParams.size(); i++) {
+            switch (baseParams.get(i).getParam_name()){
+                case "MODEL_PATH":
+                    pathResourceAllocation.setModel_path(baseParams.get(i).getParam_value());
+                    break;
+                case "HDFS_PATH":
+                    pathResourceAllocation.setHdfs_path(baseParams.get(i).getParam_value());
+                    break;
+                case "BASE_PATH":
+                    pathResourceAllocation.setBase_path(baseParams.get(i).getParam_value());
+                    break;
+                case "PROJ_PATH":
+                    pathResourceAllocation.setProj_path(baseParams.get(i).getParam_value());
+                    break;
+            }
+        }
+        resultMap.put("pathResourceAllocation",pathResourceAllocation);
+        return resultMap;
+    }
     /**
      * 修改python 参数配置
      * @param request
@@ -519,4 +546,69 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         }
     }
 
+
+    /**
+     * 修改python 参数配置
+     * @param request
+     * @param response
+     */
+    @Transactional
+    public void updatePathResourceAllocationData(HttpServletRequest request, HttpServletResponse response, PathConfiguration pathConfiguration  ){
+
+        Map map = new HashMap();
+        map.put("user_id",request.getSession().getAttribute("user").toString());
+        map.put("category_id", "path");
+        List<BaseParam> baseParams = mysqlTestMapper.selectBaseParamLike(map);
+        if (baseParams.size() == 4){
+            for (int i = 0; i < baseParams.size(); i++) {
+                switch (baseParams.get(i).getParam_name()) {
+                    case "MODEL_PATH":
+                        map.put("param_name","MODEL_PATH");
+                        map.put("param_value",pathConfiguration.getModel_path());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case "HDFS_PATH":
+                        map.put("param_name","HDFS_PATH");
+                        map.put("param_value",pathConfiguration.getHdfs_path());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case "BASE_PATH":
+                        map.put("param_name","BASE_PATH");
+                        map.put("param_value",pathConfiguration.getBase_path());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                    case "PROJ_PATH":
+                        map.put("param_name","PROJ_PATH");
+                        map.put("param_value",pathConfiguration.getProj_path());
+                        mysqlTestMapper.updateBaseParamData(map);
+                        break;
+                }
+            }
+        }else {
+            for (int i = 0; i < 4; i++) {
+                switch (i) {
+                    case 0:
+                        map.put("param_name","MODEL_PATH");
+                        map.put("param_value",pathConfiguration.getModel_path());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 1:
+                        map.put("param_name","HDFS_PATH");
+                        map.put("param_value",pathConfiguration.getHdfs_path());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 2:
+                        map.put("param_name","BASE_PATH");
+                        map.put("param_value",pathConfiguration.getBase_path());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                    case 3:
+                        map.put("param_name","PROJ_PATH");
+                        map.put("param_value",pathConfiguration.getProj_path());
+                        mysqlTestMapper.insertBaseParamData(map);
+                        break;
+                }
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.bohong.model_visualization_tools.service.resourceAllocation;
 
 import com.bohong.model_visualization_tools.domain.resourceAllocation.HiveResourceAllocation;
+import com.bohong.model_visualization_tools.domain.resourceAllocation.PathConfiguration;
 import com.bohong.model_visualization_tools.domain.resourceAllocation.PythonResourceAllocation;
 import com.bohong.model_visualization_tools.domain.resourceAllocation.SparkParameter;
 import org.springframework.ui.ModelMap;
@@ -25,6 +26,8 @@ public interface ResourceAllocationService {
     Map querySparkResourceAllocationData(HttpServletRequest request, HttpServletResponse response);
 
     Map queryPythonResourceAllocationData(HttpServletRequest request, HttpServletResponse response);
+
+    Map querypathConfigurationData(HttpServletRequest request, HttpServletResponse response);
     /**
      * 修改hive参数配置数据
      * @param request
@@ -37,6 +40,6 @@ public interface ResourceAllocationService {
 
     public void updatePythonResourceAllocationData(HttpServletRequest request, HttpServletResponse response, PythonResourceAllocation pythonResourceAllocation );
 
-
+    public void updatePathResourceAllocationData(HttpServletRequest request, HttpServletResponse response, PathConfiguration pathConfiguration );
 
 }
