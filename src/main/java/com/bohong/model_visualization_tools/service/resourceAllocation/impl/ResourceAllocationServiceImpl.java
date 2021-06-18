@@ -34,6 +34,10 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
      * @return
      */
     public Map queryHiveResourceAllocationData(HttpServletRequest request, HttpServletResponse response)  {
+
+        int[] arr = {};
+
+        int a =arr[0];
         Map resultMap = new HashMap();
         Map map = new HashMap();
         map.put("user_id",request.getSession().getAttribute("user").toString());
@@ -457,12 +461,12 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
         if (baseParams.size() == 2){
             for (int i = 0; i < baseParams.size(); i++) {
                 switch (baseParams.get(i).getParam_name()) {
-                    case "num_executors":
+                    case "pyspark_python":
                         map.put("param_name","pyspark_python");
                         map.put("param_value",pythonResourceAllocation.getPyspark_python());
                         mysqlTestMapper.updateBaseParamData(map);
                         break;
-                    case "executor_memory":
+                    case "pyspark_driver_python":
                         map.put("param_name","pyspark_driver_python");
                         map.put("param_value",pythonResourceAllocation.getPyspark_driver_python());
                         mysqlTestMapper.updateBaseParamData(map);

@@ -62,25 +62,13 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
-#  freemarker:
-#    suffix: .html
-#    request-context-attribute: req
-#    cache: false
-#    enabled: true
-#    charset: UTF-8
-#    content-type: text/html
-#    template-loader-path: classpath:/templates/
-file:
-  path: config/
-  #日志输出级别
-#logging:
-#  level:
-#   root: DEBUG
-#  #指定完整目录，在指定路径下生成日志文件
-#  file:
-#    path: /logs/log
-#  pattern:
-#    console: '%d{yyyy-MM-dd hh:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
+
+
+logging:
+  pattern:
+    console: "%d -%msg%n"
+  level:
+    root: info
 #测试标记
 custom:
   yml_sign: "0"

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//@Slf4j
+@Slf4j
 @Service
 public class DatabaseConfigurationServiceImpl implements DatabaseConfigurationService {
 
@@ -219,7 +219,6 @@ public class DatabaseConfigurationServiceImpl implements DatabaseConfigurationSe
                     database.setInst(baseParams.get(i).getParam_value());
                     break;
             }}
-
         }
         return database;
     }
