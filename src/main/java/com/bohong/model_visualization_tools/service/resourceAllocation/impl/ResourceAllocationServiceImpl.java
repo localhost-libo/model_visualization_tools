@@ -34,10 +34,6 @@ public class ResourceAllocationServiceImpl implements ResourceAllocationService 
      * @return
      */
     public Map queryHiveResourceAllocationData(HttpServletRequest request, HttpServletResponse response)  {
-
-        int[] arr = {};
-
-        int a =arr[0];
         Map resultMap = new HashMap();
         Map map = new HashMap();
         map.put("user_id",request.getSession().getAttribute("user").toString());
